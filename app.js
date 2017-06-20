@@ -15,6 +15,7 @@ function Storage() {
     const newList = new List(this.id, text);
     this.lists.push(newList);
     this.id++;
+    // change states then just render
     render();
   }
   this.removeList = function(id) {
@@ -24,6 +25,7 @@ function Storage() {
         break;
       }
     }
+    // change states then just render
     render();
   }
   this.toggleList = function(id) {
@@ -33,6 +35,7 @@ function Storage() {
         break;
       }
     }
+    // change states then just render
     render();
   }
 }
