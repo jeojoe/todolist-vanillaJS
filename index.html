@@ -1,0 +1,43 @@
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Todolist VanillaJS</title>
+  <link rel="stylesheet" type="text/css" href="css/normalize.css" />
+  <link rel="stylesheet" type="text/css" href="css/skeleton.css" />
+  <link rel="stylesheet" type="text/css" href="css/app.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Bangers" rel="stylesheet">
+</head>
+<body>
+  <div class="container main">
+
+    <div class="four columns brand-column">
+      <img src="img/logo.png" />
+      <h1>Nope, I'm done.</h1>
+      <p>Your last todo list today.<br />It's midnight already.</p>
+      <sub>Created By</sub>
+      <label>Jirat Onaree</label>
+    </div>
+
+    <div class="eight columns list-column">
+      <h5><strong>Insert todo here</strong>, type then press "Enter"</h5>
+      <input type="text" id="main-input" placeholder="I really want to get this done please help." />
+      <hr style="margin-bottom: 15px;" />
+      <h2>ALL LISTS</h2>
+      <div id="list-wrapper">
+        <!-- <div class="left">You have 7 todos left !</div> -->
+        <!-- Lists
+          <div class="list done">
+            <div class="seq">1</div>
+            <div class="checkmark"></div>
+            <div class="text">List Text</div>
+            <i class="delete-button fa fa-times-rectangle">delete</i>
+          </div>
+         -->
+      </div>
+    </div>
+
+  </div>
+  <script type="text/javascript" src="app.js"></script>
+</body>
+</html>
