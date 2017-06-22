@@ -51,7 +51,7 @@ let textField = document.getElementById('main-input');
 textField.onkeypress = function(e) {
   let key = e.keyCode || e.which;
   if (key === 13) {
-    if (!textField.value) return;
+    if (!textField.value.trim()) return;
     store.addList(textField.value);
     textField.value = '';
   }
