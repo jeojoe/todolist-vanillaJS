@@ -11,6 +11,7 @@ function List(id, text) {
 function Storage() {
   this.lists = [];
   this.id = 0;
+  this.filter = 'all'; // all, active, done
   this.addList = function(text) {
     const newList = new List(this.id, text);
     this.lists.push(newList);
@@ -38,6 +39,19 @@ function Storage() {
     // change states then just render
     render();
   }
+  this.changeFilter = function(filter) {
+    this.filter = filter;
+    // change states then just render
+    render();
+  }
+  this.clearDone = function() {
+    console.log('sdfsdf');
+    const notDoneLists = this.lists.filter(list => !list.isDone);
+    console.log(notDoneLists);
+    this.lists = notDoneLists;
+    // change states then just render
+    render();
+  }
 }
 
 //===== Initialize App =======//
@@ -46,7 +60,7 @@ function Storage() {
 let store = new Storage();
 store.addList('Hello there, this is first list for you.');
 
-// Attach addList function to input's onkeypress
+// Attach addList function to input's onkeypress event
 let textField = document.getElementById('main-input');
 textField.onkeypress = function(e) {
   let key = e.keyCode || e.which;
@@ -55,6 +69,36 @@ textField.onkeypress = function(e) {
     store.addList(textField.value);
     textField.value = '';
   }
+}
+
+// Attach changeFilter function to filter button's onclick event
+let allFilter = document.getElementById('all-filter');
+let activeFilter = document.getElementById('active-filter');
+let doneFilter = document.getElementById('done-filter');
+
+allFilter.onclick = function() {
+  store.changeFilter('all');
+  allFilter.classList.add('button-primary');
+  activeFilter.classList.remove('button-primary');
+  doneFilter.classList.remove('button-primary');
+}
+activeFilter.onclick = function() {
+  store.changeFilter('active');
+  allFilter.classList.remove('button-primary');
+  activeFilter.classList.add('button-primary');
+  doneFilter.classList.remove('button-primary');
+}
+doneFilter.onclick = function() {
+  store.changeFilter('done');
+  allFilter.classList.remove('button-primary');
+  activeFilter.classList.remove('button-primary');
+  doneFilter.classList.add('button-primary');
+}
+
+// Attach clearDone function to clear done button
+let clearBtn = document.getElementById('clear-btn');
+clearBtn.onclick = function() {
+  store.clearDone();
 }
 
 //===== Rendering DOM ======//
@@ -70,6 +114,15 @@ function render() {
   // Render all lists and also attach toggleList and deleteList function.
   for (i in store.lists) {
     const list = store.lists[i];
+    
+    // If list isn't done yet, countLeft++
+    if (!list.isDone) countLeft++;
+
+    // Filter logics
+    // Active filter but list is done -> skip
+    if (store.filter === 'active' && list.isDone) continue;
+    // Done filter but list isn't done -> skip
+    else if (store.filter === 'done' && !list.isDone) continue;
 
     /* List DOM Structure 
       - listDOM
@@ -111,9 +164,6 @@ function render() {
     listDOM.appendChild(textDOM);
     listDOM.appendChild(deleteButtonDOM);
     document.getElementById('list-wrapper').appendChild(listDOM);
-
-    // If list isn't done yet, countLeft++
-    if (!list.isDone) countLeft++;
   }
 
   // Render count label e.g. "You have 7 todos!"
