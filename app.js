@@ -122,49 +122,66 @@ function render() {
     // Done filter but list isn't done -> skip
     else if (store.filter === 'done' && !list.isDone) continue;
 
-    /* List DOM Structure 
+    // Render List
+    const listDOM = createListDOM(list, seq);
+    document.getElementById('list-wrapper').appendChild(listDOM);
+  }
+
+  // Render count label e.g. "You have 7 todos left!"
+  const countDOM = createCountDOM(countLeft);
+  document.getElementById('list-wrapper').appendChild(countDOM);
+}
+
+// Create List DOM function
+// list: object, seq: number
+function createListDOM(list, seq) {
+  /* List DOM Structure 
       - listDOM
         - seqDOM
         - checkmarkDOM
         - textDOM
         - deleteButtonDOM
     */
-    const listDOM = document.createElement('div');
-    listDOM.classList.add('list');
-    if (list.isDone) {
-      listDOM.classList.add('done');
-    }
-    listDOM.onclick = function() {
-      store.toggleList(list.id);
-    };
-
-    const seqDOM = document.createElement('div');
-    seqDOM.classList.add('seq');
-    seqDOM.innerHTML = seq++;
-
-    const checkmarkDOM = document.createElement('div');
-    checkmarkDOM.classList.add('checkmark');
-
-    const textDOM = document.createElement('div');
-    textDOM.classList.add('text');
-    textDOM.innerHTML = list.text;
-
-    const deleteButtonDOM = document.createElement('i');
-    deleteButtonDOM.classList.add('delete-button', 'fa', 'fa-times-rectangle');
-    deleteButtonDOM.onclick = function() {
-      console.log('remove')
-      store.removeList(list.id);
-    };
-
-    // Glue DOM together
-    listDOM.appendChild(seqDOM);
-    listDOM.appendChild(checkmarkDOM);
-    listDOM.appendChild(textDOM);
-    listDOM.appendChild(deleteButtonDOM);
-    document.getElementById('list-wrapper').appendChild(listDOM);
+  const listDOM = document.createElement('div');
+  listDOM.classList.add('list');
+  if (list.isDone) {
+    listDOM.classList.add('done');
   }
+  // Attach toggleList function to onclick event
+  listDOM.onclick = function() {
+    store.toggleList(list.id);
+  };
 
-  // Render count label e.g. "You have 7 todos!"
+  const seqDOM = document.createElement('div');
+  seqDOM.classList.add('seq');
+  seqDOM.innerHTML = seq++;
+
+  const checkmarkDOM = document.createElement('div');
+  checkmarkDOM.classList.add('checkmark');
+
+  const textDOM = document.createElement('div');
+  textDOM.classList.add('text');
+  textDOM.innerHTML = list.text;
+
+  const deleteButtonDOM = document.createElement('i');
+  deleteButtonDOM.classList.add('delete-button', 'fa', 'fa-times-rectangle');
+  // Attach removeList to onclick event
+  deleteButtonDOM.onclick = function() {
+    store.removeList(list.id);
+  };
+
+  // Glue DOM together
+  listDOM.appendChild(seqDOM);
+  listDOM.appendChild(checkmarkDOM);
+  listDOM.appendChild(textDOM);
+  listDOM.appendChild(deleteButtonDOM);
+
+  return listDOM;
+}
+
+// Create Count DOM function
+// countLeft: number
+function createCountDOM(countLeft) {
   const countDOM = document.createElement('div');
   countDOM.classList.add('left');
   if (countLeft > 0) {
@@ -173,5 +190,6 @@ function render() {
     countDOM.classList.add('done');
     countDOM.innerHTML = 'Everthing is done! Time to GO HOME !';
   }
-  document.getElementById('list-wrapper').appendChild(countDOM);
+
+  return countDOM;
 }
