@@ -45,9 +45,7 @@ function Storage() {
     render();
   }
   this.clearDone = function() {
-    console.log('sdfsdf');
     const notDoneLists = this.lists.filter(list => !list.isDone);
-    console.log(notDoneLists);
     this.lists = notDoneLists;
     // change states then just render
     render();
